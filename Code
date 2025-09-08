@@ -1,0 +1,162 @@
+import java.util.*;
+
+class Account {
+    int accNo;
+    String name;
+    double bal;
+    String email;
+    String phone;
+
+    Account(int a, String n, double b, String e, String p) {
+        accNo = a;
+        name = n;
+        bal = b;
+        email = e;
+        phone = p;
+    }
+
+    void deposit(double amt) {
+        if(amt > 0) {
+            bal = bal + amt;
+            System.out.println("Deposited. Current balance: " + bal);
+        } else {
+            System.out.println("Amount should be positive");
+        }
+    }
+
+    void withdraw(double amt) {
+        if(amt > 0) {
+            if(bal >= amt) {
+                bal = bal - amt;
+                System.out.println("Withdraw done. Current balance: " + bal);
+            } else {
+                System.out.println("Low balance");
+            }
+        } else {
+            System.out.println("Invalid amount");
+        }
+    }
+
+    void showDetails() {
+        System.out.println("Acc No: " + accNo);
+        System.out.println("Name: " + name);
+        System.out.println("Balance: " + bal);
+        System.out.println("Email: " + email);
+        System.out.println("Phone: " + phone);
+    }
+
+    void updateContact(String e, String p) {
+        email = e;
+        phone = p;
+        System.out.println("Contact updated");
+    }
+}
+
+public class BankingApp {
+    static Scanner sc = new Scanner(System.in);
+    static Account[] accs = new Account[50];
+    static int cnt = 0;
+    static int nextAcc = 1001;
+
+    public static void main(String[] args) {
+        System.out.println("Welcome to Bank App");
+        menu();
+    }
+
+    static void menu() {
+        while(true) {
+            System.out.println("\n1.Create Acc");
+            System.out.println("2.Deposit");
+            System.out.println("3.Withdraw");
+            System.out.println("4.Show Acc Details");
+            System.out.println("5.Update Contact");
+            System.out.println("6.Exit");
+            System.out.print("Enter choice: ");
+            int ch = sc.nextInt();
+            sc.nextLine();
+
+            if(ch==1) createAcc();
+            else if(ch==2) depositMoney();
+            else if(ch==3) withdrawMoney();
+            else if(ch==4) showAcc();
+            else if(ch==5) updateContact();
+            else if(ch==6) {
+                System.out.println("Bye");
+                break;
+            } else {
+                System.out.println("Wrong choice");
+            }
+        }
+    }
+
+    static void createAcc() {
+        System.out.print("Enter name: ");
+        String n = sc.nextLine();
+        System.out.print("Enter initial amount: ");
+        double b = sc.nextDouble();
+        sc.nextLine();
+        System.out.print("Enter email: ");
+        String e = sc.nextLine();
+        System.out.print("Enter phone: ");
+        String p = sc.nextLine();
+
+        accs[cnt] = new Account(nextAcc, n, b, e, p);
+        System.out.println("Account created. Acc No: " + nextAcc);
+        nextAcc++;
+        cnt++;
+    }
+
+    static void depositMoney() {
+        System.out.print("Enter acc no: ");
+        int num = sc.nextInt();
+        System.out.print("Enter amount: ");
+        double amt = sc.nextDouble();
+        Account a = findAcc(num);
+        if(a!=null) {
+            a.deposit(amt);
+        } else {
+            System.out.println("Acc not found");   }
+    }
+  static void withdrawMoney() {
+        System.out.print("Enter acc no: ");
+        int num = sc.nextInt();
+        System.out.print("Enter amount: ");
+        double amt = sc.nextDouble();
+        Account a = findAcc(num);
+        if(a!=null) {
+            a.withdraw(amt);
+        } else {
+            System.out.println("Acc not found");
+        }  }
+    static void showAcc() {
+        System.out.print("Enter acc no: ");
+        int num = sc.nextInt();
+        Account a = findAcc(num);
+        if(a!=null) {
+            a.showDetails();
+        } else {
+            System.out.println("Acc not found");
+        } 
+    }
+    static void updateContact() {
+        System.out.print("Enter acc no: ");
+        int num = sc.nextInt();
+        sc.nextLine();
+        Account a = findAcc(num);
+        if(a!=null) {
+            System.out.print("Enter new email: ");
+            String e = sc.nextLine();
+            System.out.print("Enter new phone: ");
+            String p = sc.nextLine();
+            a.updateContact(e, p);
+        } else {
+            System.out.println("Acc not found");
+        } 
+    }
+    static Account findAcc(int num) {
+        for(int i=0;i<cnt;i++) {
+            if(accs[i].accNo==num) return accs[i];
+        }
+        return null;
+    } 
+}
