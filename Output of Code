@@ -1,0 +1,14 @@
+Welcome to Bank App
+
+1.Create Acc
+2.Deposit
+3.Withdraw
+4.Show Acc Details
+5.Update Contact
+6.Exit
+Enter choice: 1
+Enter name: Harshit Kumar
+Enter initial amount: 10000
+Enter email: hk@gmail.com
+Enter phone: 09876545
+Account created. Acc No: 1001
